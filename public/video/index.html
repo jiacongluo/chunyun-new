@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0041)http://14.23.164.13:7001/video/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>实时预览</title>
+    <style type="text/css">
+        div,td,input
+        {
+        	font-size:12px;
+        }
+        .ptzBtn
+        {
+        	width:32px;
+        }
+        #Select1
+        {
+            width: 67px;
+        }
+        #SelectWnd
+        {
+            width: 70px;
+        }
+    </style>
+    
+    <script>
+	
+	function getUrlParam(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+	if (r != null) {
+		return unescape(r[2]); 
+	}
+	return null; //返回参数值
+}
+	window.onload=function(){ 
+		var str = getUrlParam("vid");
+		console.log(str);
+		if ((typeof str  !=  'undefined' && str) && str.length > 0){
+			document.frmApp.CameraIndexCode.value=str;
+			LoginPlat();
+			StartPreview();
+		}else{
+			console.log("编码不正确："+str);
+		}
+		
+	} 
+
+	
+		function LoginPlat()
+		{
+			//Demo默认使用密码登录方式
+			var IP = document.frmApp.IP.value;
+			var port = document.frmApp.port.value;
+			var UserName = document.frmApp.UserName.value;
+			var Password = document.frmApp.Password.value;
+			var v1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?><LoginInfo><LoginType>2</LoginType><SynLogin>1</SynLogin><IP>"+IP+"</IP><Port>"+port
+			+"</Port><UserName>"+UserName+"</UserName><Password>"+Password+"</Password></LoginInfo>";
+			//alert(v1);
+			var v = preview.LoginPlat(v1);
+			if(v != 0)
+			alert("登录失败，请查看日志preview.log");
+		}
+
+		//新的预览接口，需先登录平台，登录需要耗点时间，稍等（控件自身取Token）
+		function StartPreview()
+		{
+			var Code = document.frmApp.CameraIndexCode.value;
+			var _param = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Preview><CamIndexCode>"+Code+"</CamIndexCode></Preview>";
+			
+			preview.StartPreview( _param);
+		}
+		
+		//老预览接口：控件仍然抛事件给平台，由平台传入Token，如果服务要验证token，预览会失败，只能通过登录平台方式预览
+		function StartPreviewEx()
+		{
+			var IP = document.frmApp.VAGIP.value;
+			var port = document.frmApp.VAGPort.value;
+			var Code = document.frmApp.CameraIndexCode.value;
+			//根据平台不同的取流配置方式，控件开始预览接口StartPreviewEx(BSTR szXml)包含以下三种情况
+            //取流方式一：过Vag直连取流(非级联)
+			var stream_vag_param = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Preview>"
+				       + "<StreamSvr>"
+					   + "<Svr type=\"3\" ip=\""+IP+"\" port=\""+port+"\"/>"						  //过Vag直连取流：提供监控点所在的Vag服务IP和端口
+					   + "</StreamSvr>" 														      
+					   + "<CamIndexCode>"+Code+"</CamIndexCode>"						  			  //监控点编号：对应平台监控点信息"c_index_code"字段
+					   + "<CamName>小区Camera01</CamName>"										      //监控点名称：对应平台监控点信息"c_name"字段
+					   + "<DevIndexCode>10000000001130000003</DevIndexCode>"                          //监控点所在设备编号：对应平台监控点信息"c_device_index_code"字段
+					   + "<LinkType>1</LinkType>"									                  //取流连接协议：1~TCP(默认), 2~UDP，对应平台监控点信息"i_stream_link_type"字段
+					   + "<StreamType>0</StreamType>"                								  //码流类型：0~主码流, 1~子码流,对应平台监控点信息"i_stream_type"字段  
+					   + "<ChannelNo>1</ChannelNo>"										              //监控点所在设备通道号：对应监控点信息“i_channel_no”字段
+					   + "<NetZone cnid=\"1\" pnid=\"1\"/>"											  //客户端和设备所在网域Id，内网~1(默认)，外网~2，pnid对应设备信息"i_netDemain_id"字段
+					   + "<UserLevel>50</UserLevel>"											      //平台用户等级，50~系统管理员
+					   + "<DevType>0</DevType>"												          //监控点所在设备设备厂商类型：0~海康，1~大华，其他参考平台设备,对应平台设备信息"i_device_detail_type"字段
+					   + "<ProSeries>1</ProSeries>"											          //监控点所在设备对应产品系列,对应平台设备信息"i_manufacturer"字段
+					   + "<TreatyType>SDK</TreatyType>"												  //监控点所在设备产品接入协议：SDK~海康SDK设备, EHOME~EHOME设备, GB28181~国标设备等,对应平台设备信息"c_treaty_type"字段
+					   + "<UserName>admin</UserName>"												  //监控点所在设备用户名,对应平台设备信息"c_user_name"字段 
+					   + "<PassWord>XdMOANI=</PassWord>" 											  //监控点所在设备密码,对应平台设备信息"c_user_pwd"字段
+					   + "<FishEyeInfo><InstallType></InstallType><VideoDevType>16</VideoDevType></FishEyeInfo>" //[可选]对于鱼眼监控点使用：安装方式和设备类型
+					   + "</Preview>";
+
+			//取流方式二：过流媒体取流(非级联)
+			var stream_vtm_param = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Preview>"
+				       + "<StreamSvr>"																  //过流媒体取流需同时提供Vag服务和流媒体服务信息，其中流媒体服务可以是Vtm或Vtdu，取决于平台配置的服务
+					   + "<Svr type=\"3\" ip=\"10.33.30.205\" port=\"7302\"/>"   					  //Vag服务
+					   + "<Svr type=\"4\" ip=\"10.33.30.205\" port=\"557\"/>"						  //Vtm或Vtdu服务 
+					   + "</StreamSvr>"     
+					   + "<CamIndexCode>10000000001310000019</CamIndexCode>"						  //监控点编号：对应平台监控点信息"c_index_code"字段
+					   + "<CamName>小区Camera01</CamName>"										      //监控点名称：对应平台监控点信息"c_name"字段
+					   + "<DevIndexCode>10000000001130000003</DevIndexCode>"                          //监控点所在设备编号：对应平台监控点信息"c_device_index_code"字段
+					   + "<LinkType>1</LinkType>"									                  //取流连接协议：1~TCP(默认), 2~UDP，对应平台监控点信息"i_stream_link_type"字段
+					   + "<StreamType>0</StreamType>"                								  //码流类型：0~主码流, 1~子码流,对应平台监控点信息"i_stream_type"字段  
+					   + "<ChannelNo>1</ChannelNo>"										              //监控点所在设备通道号：对应监控点信息“i_channel_no”字段
+					   + "<NetZone cnid=\"1\" pnid=\"1\"/>"											  //客户端和设备所在网域Id，内网~1(默认)，外网~2，pnid对应设备信息"i_netDemain_id"字段
+					   + "<UserLevel>50</UserLevel>"											      //平台用户等级，50~系统管理员
+					   + "<DevType>0</DevType>"												          //监控点所在设备设备厂商类型：0~海康，1~大华，其他参考平台设备,对应平台设备信息"i_device_detail_type"字段
+					   + "<ProSeries>1</ProSeries>"											          //监控点所在设备对应产品系列,对应平台设备信息"i_manufacturer"字段
+					   + "<TreatyType>SDK</TreatyType>"												  //监控点所在设备产品接入协议：SDK~海康SDK设备, EHOME~EHOME设备, GB28181~国标设备等,对应平台设备信息"c_treaty_type"字段
+					   + "<UserName>admin</UserName>"												  //监控点所在设备用户名,对应平台设备信息"c_user_name"字段 
+					   + "<PassWord>XdMOANI=</PassWord>" 											  //监控点所在设备密码,对应平台设备信息"c_user_pwd"字段
+					   + "<FishEyeInfo><InstallType></InstallType><VideoDevType>16</VideoDevType></FishEyeInfo>" //[可选]对于鱼眼监控点使用：安装方式和设备类型
+					   + "</Preview>"; 
+					   
+			//取流方式三：级联过NCG取流
+			var stream_ncg_param = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Preview>"
+				       + "<StreamSvr>"																  //级联取流提供NCG服务的IP和端口
+					   + "<Svr type=\"8\" ip=\"10.33.30.205\" port=\"7099\"/>"   					  //NCG服务
+					   + "</StreamSvr>"  
+					   + "<CascCode>999999990020000000022</CascCode>"								  //级联监控点编码标志，通过该字段区分是否为级联监控点及是否级联过NCG取流，对应平台监控点信息"c_cascade_privilege"字段
+					   + "<DecodeTag>hikvision</DecodeTag>"											  //级联监控点编码标志：hikvision~海康设备，dahua~大华设备，db33~国标设备，通过该字段区别进行解码播放，对应平台监控点信息"c_decode_tag"字段
+					   + "<CamIndexCode>10000000001310000019</CamIndexCode>"						  //监控点编号
+					   + "<CamName>Camera01</CamName>"												  //监控点名称
+					   + "<ChannelNo>1</ChannelNo>"													  //监控点所在设备通道号
+					   + "<NetZone cnid=\"1\" pnid=\"\"/>"					   					          //客户端和设备所在网域Id，内网~1，外网~2，注：级联时无设备信息
+					   + "<LinkType>1</LinkType>"													  //[预留，暂不使用]取流连接协议：1~TCP(默认), 2~UDP
+					   + "<StreamType>0</StreamType>"												  //[预留，暂不使用]码流类型：0~主码流, 1~子码流
+					   + "</Preview>"; 
+
+			//alert(stream_vag_param);
+			preview.StartPreviewEx(stream_vag_param);
+		}
+		
+		function OnStopPreview(){
+			preview.StopPreview();
+		}
+		
+    </script>
+    
+<!-- 以下是事件触发函数接口 -->  
+<script language="javascript" for="preview" event="MsgNotify(iMsg,iError,szDetail,lWnd)">  
+	szMsg = "消息类型:" + iMsg + "，错误码:" + iError + "，详细信息:" + szDetail + "，窗口ID: " + lWnd;
+	//alert(szMsg);
+	document.frmApp.Result.value = szMsg;
+	if (iMsg == 0x0200000E) {
+		var _id = iError;
+		var _token = "#token#";
+		//var _url="url=sdk://hc8://10.17.48.49:8000:0:MAIN:admin:12345:TCP";
+		//preview.SetToken(_id, _url);;
+	}
+	if (iMsg == 0x02000007)
+	{
+		var _right = "10034,10033,10032,10020,10027,10014,10001,10028,10002,10015,10005,10010,10024,10006,10011,10003,10021,10012,10022,10004,10013,10009,10029";
+		preview.SetRightCode(_right);
+		var _toolbar = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<ToolBar><Item type=\"0\" /><Item type=\"24\" /><Item type=\"5\" />"
+				+ "<Item type=\"6\" /><Item type=\"7\" /><Item type=\"8\" />"
+				+ "<Item type=\"9\" /><Item type=\"10\" /><Item type=\"12\" />"
+				+ "<Item type=\"17\" /><Item type=\"20\" /><Item type=\"21\" />"
+				+ "<Item type=\"22\" /></ToolBar>";
+		//preview.SetToolBar(_toolbar);
+		preview.SetToolBarAlwaysShow(0);
+		preview.SetInstPlayCfg(30);
+		var _snap = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<SnapShot><PicType>jpeg</PicType><Quality>80</Quality><SnapMulti>1</SnapMulti>"
+				+ "<SnapTimes>3</SnapTimes><TimeSpan>1</TimeSpan><SaveFolder>C:\\Users\\huangjunyf2\\Documents\\CSC\\capture\\</SaveFolder><KeyWords></KeyWords></SnapShot>";
+		//preview.SetSnapParam(_snap);
+		var _record = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<VideoRecord><PackType>0</PackType><MaxRecTime>0</MaxRecTime>"
+				+ "<PackTime>100</PackTime><PackSize>100</PackSize><SaveFolder>C:\\Users\\huangjunyf2\\Documents\\CSC\\record\\</SaveFolder><KeyWords></KeyWords></VideoRecord>";
+		//preview.SetRecordParam(_record);
+	}
+</script>
+
+</head>
+<body style="margin:0 0 0 0;">
+<form name="frmApp" mothed="post" action="http://14.23.164.13:7001/video/index.html" style="display: none;">
+	回调结果
+		<input type="text" name="Result" style="width:440px" id="Result" value="">
+		<br>
+	监控点编号
+		<input type="text" name="CameraIndexCode" style="width:160px" id="CameraIndexCode" value="33010900001310000001">
+	IP
+		<input type="text" name="IP" id="IP" value="10.0.109.143" style="width:120px">
+	Port
+		<input type="text" name="port" id="port" value="443" style="width:40px">
+	UserName
+		<input type="text" name="UserName" id="UserName" value="admin" style="width:60px">
+	Password
+		<input type="text" name="Password" id="Password" value="Cypt@2019" style="width:100px">
+	VAGIP
+		<input type="text" name="VAGIP" id="VAGIP" value="10.0.109.143" style="width:120px">
+	VAGPort
+		<input type="text" name="VAGPort" id="VAGPort" value="7302" style="width:40px">
+</form>
+    <div style="text-align:left;font-size:14px;display:none;">HIKVISION 网页控件</div>
+    <div style="text-align:left;background-color: #C0C0C0;width:600px;display:none;">&nbsp;</div>
+    <div style="width:600px">
+        <div style="width:100%;float:right;overflow:hidden;display:none;">
+            &nbsp;<br>
+            <table width="100%" style="border: thin solid #C0C0C0">
+                <tbody><tr>
+                    <!--td width="65px" align="center"><input type="button" value="初始化控件" onclick="OnInit()" /></td-->
+					<td>登录平台预览功能</td>
+					<td width="65px" align="center"><input type="button" value="登录平台" onclick="LoginPlat()"></td>
+					<td width="65px" align="center"><input type="button" value="登录平台预览" onclick="StartPreview()"></td>
+					<td>不登录平台预览功能</td>
+					<td width="65px" align="center"><input type="button" value="老接口预览" onclick="StartPreviewEx()"></td>
+					<td width="65px" align="center"><input type="button" value="停止预览" onclick="OnStopPreview()"></td>
+                </tr>
+            </tbody></table>
+        </div>
+        <div style="width:100%;float:left;overflow:hidden">
+            <!-- 添加预览控件（需要先在windows下注册） -->
+            <div id="ocxContainer" style="width:100%;height:100%">
+            	<object classid="clsid:E55C9850-D54F-4DF2-A7B4-B8C3B687BE2F" id="preview" width="600" height="500" name="preview"></object>
+            </div>
+        </div>
+    </div>
+
+
+
+</body></html>

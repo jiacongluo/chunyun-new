@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>广州白云机场</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: #fff;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+
+			#toolTip{
+			    position:absolute;
+				top:-100px;
+				color:0xffffff;
+
+			}
+			#toolTip .tooltip-inner{
+				background-color: #5bc0de;
+			}
+
+		</style>
+
+	</head>
+
+	<body>
+		<div id="info">
+		广州白云国际机场
+		</div>
+
+		<script src="./build/three.js"></script>
+
+
+		<script src="./js/loaders/MTLLoader.js"></script>
+		<script src="./js/loaders/OBJLoader.js"></script>
+		<script src="./js/controls/OrbitControls.js"></script>
+
+
+		<script src="./models/obj/airport/js/jquery-1.11.0.min.js"></script>
+
+		<script id="vertexShader" type="x-shader/x-vertex">
+
+			varying vec2 vUv;
+
+			void main()	{
+
+				vUv = uv;
+
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+
+		</script>
+
+		<script id="fragmentShader" type="x-shader/x-fragment">
+
+			varying vec2 vUv;
+
+			#ifdef GL_ES
+			precision mediump float;
+			#endif
+
+			#extension GL_OES_standard_derivatives : enable
+
+			uniform sampler2D mydiffuseMap;
+
+			void main( void ) {
+
+					gl_FragColor = vec4(texture2D( mydiffuseMap, vUv ).xyz,1.0);
+
+			}
+
+		</script>
+		<script>
+
+            /*var NODE_ENV = top['NODE_ENV']
+            var root = ''
+            // var pathname = window.location.pathname
+            var pathname = '/cy2'
+            console.log('3d-NODE_ENV:',NODE_ENV)
+            console.log('3d-top[\'theNum\']:',top['theNum'])*/
+            // if (NODE_ENV === 'development') {
+                root = './'
+            // } else {
+                // root = pathname+'/airport/'
+            // }
+            // console.log('NODE_ENV',process.env.NODE_ENV)
+			var container, stats;
+
+			var camera, scene, renderer;
+
+			var plane1, plane2, plane3,plane4,plane5,plane6;
+
+			var mouseX = 0, mouseY = 0;
+            var mouse = new THREE.Vector2()
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+
+			var mouseTarget =[];
+			var buildingSets =[];
+			var LightSets =[];
+			var  mesh ,ambientLight;
+			var controls;
+			init();
+			animate();
+			var meshFloor;
+			var mouse, raycaster;
+			var isLoaded = false;
+			var attachedMesh ;
+			var UserCount ;
+
+			function getUserCount(){
+				// $.get('http://14.23.164.13:9005/gdcnymot2/api/terminal/getTerminalFlow?postionID=80165', function(result){
+				// 	console.log(result);
+				//
+				// 	var count = result["user_cnt"];
+				// 	UserCount += count;
+				//  });
+				//
+				//  $.get('http://14.23.164.13:9005/gdcnymot2/api/terminal/getTerminalFlow?postionID=80123', function(result){
+				// 	console.log(result);
+				//
+				// 	var count = result["user_cnt"];
+				// 	UserCount += count;
+				//  });
+				//
+				//  $.get('http://14.23.164.13:9005/gdcnymot2/api/terminal/getTerminalFlow?postionID=80120', function(result){
+				// 	console.log(result);
+				//
+				// 	var count = result["user_cnt"];
+				// 	UserCount += count;
+				//  });
+				//
+				//  $.get('http://14.23.164.13:9005/gdcnymot2/api/terminal/getTerminalFlow?postionID=80121', function(result){
+				// 	console.log(result);
+				//
+				// 	var count = result["user_cnt"];
+				// 	UserCount += count;
+				//  });
+				//
+				//  $.get('http://14.23.164.13:9005/gdcnymot2/api/terminal/getTerminalFlow?postionID=80122', function(result){
+				// 	console.log(result);
+				//
+				// 	var count = result["user_cnt"];
+				// 	UserCount += count;
+				//  });
+				//
+				//  $.get('http://14.23.164.13:9005/gdcnymot2/api/terminal/getTerminalFlow?postionID=80127', function(result){
+				// 	console.log(result);
+				//
+				// 	var count = result["user_cnt"];
+				// 	UserCount += count;
+				//  });
+
+				 ///实际环境钟 注释掉下面这一行代码
+				// UserCount = top['theNum'];
+
+
+
+				//console.log(UserCount);
+			}
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+				//创建透视投影相机 参数：1：垂直视野角度（0~180,45接近人眼角度） 2：长宽比 3：近端面(default:0.1) 4：远端面（default:2000)
+				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+				//相机位置 xyz坐标
+				camera.position.set(55,20,-50);
+
+
+				//创建场景
+				scene = new THREE.Scene();
+				//创建环境光 参数：颜色、强度
+				ambientLight = new THREE.AmbientLight( 0xffffff, 0.1 );
+				scene.add( ambientLight );
+				//创建点光源 参数：颜色、强度
+				var pointLight = new THREE.PointLight( 0xaaaaaa, 1.0 );
+				//camera.add( pointLight );
+				scene.add( camera );
+				//生成渲染器对象，属性：锯齿效果设为true
+				renderer = new THREE.WebGLRenderer({antialias:true});
+				// 设置显示比例 屏幕当前分辨率
+				renderer.setPixelRatio( window.devicePixelRatio );
+				//设置渲染器的宽和高，和画布大小一致
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				//添加渲染器
+				container.appendChild( renderer.domElement );
+				//
+				renderer.toneMapping = THREE.LinearToneMapping;
+				//renderer.toneMapping = THREE.ReinhardToneMapping;
+				renderer.gammaOutput = true;
+				renderer.gammaFactor = 2.0;
+				renderer.gammaInput= true;
+				//增加鼠标滑动事件
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+				//窗口尺寸变化
+				window.addEventListener( 'resize', onWindowResize, false );
+				//创建相机控件
+				controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls.addEventListener( 'change', render );
+				//可以缩放
+				controls.enableZoom = true;
+				//缩放范围（透视相机 PerspectiveCamera有效）
+				controls.minDistance = 0;
+				controls.maxDistance = 300;
+				//缩放范围（正交投影相机 OthorgraphicCamera有效）
+				controls.minZoom = 40;
+				controls.maxZoom = 100;
+				//上下旋转
+				controls.minPolarAngle = 0; // radians
+				controls.maxPolarAngle = Math.PI * 0.4; // radians
+				//水平旋转
+				controls.minAzimuthAngle = - Infinity; // radians
+				controls.maxAzimuthAngle = Infinity; // radians
+				//创建射线
+				raycaster = new THREE.Raycaster();
+				//场景背景进行贴图
+				envMap = new THREE.CubeTextureLoader()
+					.setPath( root+'textures/cube/skyboxsun25deg/')
+					.load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
+				scene.background = envMap;
+
+
+				getUserCount();
+				initModel();
+				heatMap();
+			}
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				mouseX = ( event.clientX - windowHalfX ) / 2;
+				mouseY = ( event.clientY - windowHalfY ) / 2;
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+			}
+
+			//
+
+			function animate() {
+				if(isLoaded){
+					controls.update();
+				}
+				requestAnimationFrame( animate );
+				render();
+
+			}
+
+			function worldToScreen(world_vector){
+
+
+				let vector = world_vector.project(camera);
+				let halfWidth = window.innerWidth / 2,
+
+				halfHeight = window.innerHeight / 2;
+
+				return {
+
+				　　x: Math.round(vector.x * halfWidth + halfWidth),
+
+				　　y: Math.round(-vector.y * halfHeight + halfHeight)
+
+				};
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+				if(isLoaded){
+
+					raycaster.setFromCamera( mouse, camera );
+
+					var intersects = raycaster.intersectObjects( mouseTarget);
+
+					for(var i = 0; i < mouseTarget.length ; i++){
+						 mouseTarget[i].material.opacity = 0.0;
+						 //for(var i = 0; i < mouseTarget.length ; i++){
+						mouseTarget[i].index = UserCount;
+						//console.log(UserCount);
+						//}
+					}
+
+					if ( intersects.length > 0 ) {
+						for(var i = 0; i < mouseTarget.length ; i++){
+							//console.log(buildingSets[i]);
+							//buildingSets[i].material.emissive = new THREE.Color(0.2,0.2,.2);
+						}
+						ambientLight.intensity = 0.06;
+						for(var i = 0; i < LightSets.length ; i++){
+							//LightSets[i].visible = true;
+						}
+
+						var buffer = intersects[ 0 ].object.geometry.attributes.position.array;
+						var pos = new THREE.Vector3(buffer[0],buffer[1],buffer[2]);
+						//intersects[ 0 ].object.material.opacity = 0.25;
+						var ScreenPos = worldToScreen(pos);
+
+						//console.log(ScreenPos);
+
+						jQuery('#test').css('left',ScreenPos.x+'px');
+						jQuery('#test').css('top',ScreenPos.y+'px');
+						jQuery('#test').show();
+
+						jQuery('#svgBodyTextNumber').text(intersects[ 0 ].object.index);
+
+					} else {
+					    ambientLight.intensity = 0.1;
+					    for(var i = 0; i < mouseTarget.length ; i++){
+							//buildingSets[i].material.emissive = new THREE.Color(1.0,1.0,1.0);
+						}
+						for(var i = 0; i < LightSets.length ; i++){
+							//LightSets[i].visible = false;
+						}
+						jQuery('#test').hide();
+					}
+				}
+
+
+			}
+
+			function initModel(){
+				//加载进度
+				var onProgress = function ( xhr ) {
+
+					if ( xhr.lengthComputable ) {
+
+						var percentComplete = xhr.loaded / xhr.total * 100;
+						console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+
+					}
+
+				};
+				//创建纹理贴图-未使用
+				var loader = new THREE.TextureLoader(  );
+				var matcap = loader.load( root+'textures/matcaps/5eef0d332da744e19ea9560c5847b9bd9dba3e4f28c3-rE3lys_fw658.jfif', function () {
+
+					matcap.encoding = THREE.sRGBEncoding;
+
+					if ( mesh ) mesh.material.needsUpdate = true;
+
+				} );
+
+				var onError = function () { };
+				// 加载纹理-未使用
+				var texture1 = new THREE.TextureLoader().load( root+'models/obj/airport/ceilingVRayCompleteMap.jpg' );
+
+				//加载底部纹理
+				var textureFloor = new THREE.TextureLoader().load( root+'models/obj/airport/floorVRayCompleteMap.jpg',function(){
+					//matcap1.encoding = THREE.sRGBEncoding;
+
+					//if ( meshFloor ) meshFloor.material.needsUpdate = true;
+
+
+
+
+				});
+
+
+				uniforms = {
+					time: { value: 1.0 },
+					mydiffuseMap  : { value: textureFloor },
+				};
+				//创建材质
+				var material = new THREE.ShaderMaterial( {
+
+					uniforms: uniforms,
+					vertexShader: document.getElementById( 'vertexShader' ).textContent,
+					fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+					//transparent:false,
+					//blending:THREE.AdditiveBlending,
+				} );
+
+
+
+
+				//加载材料文件
+				new THREE.MTLLoader()
+					.setPath( root+'models/obj/airport/' )
+					.load( 'airPort.mtl', function ( materials ) {
+
+						materials.preload();
+                        //加载几何文件
+						new THREE.OBJLoader()
+							.setMaterials( materials )
+							.setPath( root+'models/obj/airport/' )
+							.load( 'airPort.obj', function ( object ) {
+                                //console.log(object);
+								//object.position.y = - 95;
+
+								for(var index = 0 ;index < object.children.length; index++){
+									var obj = object.children[index];
+
+
+									if(obj.name == "LM02"){
+										//buildingSets.push(obj);
+										//console.log(obj);
+										obj.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/LM02VRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+									}
+									if(obj.name == "CP"){
+									obj.material = new THREE.ShaderMaterial( {
+										uniforms: {
+										time: { value: 1.0 },
+										mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/CPVRayCompleteMap.jpg') },
+										},
+										vertexShader: document.getElementById( 'vertexShader' ).textContent,
+										fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+									    } );
+									}
+
+									if(obj.name == "QB"){
+										//console.log("QB");
+									    //continue;
+										obj.visible = false;
+									}
+
+									if(obj.name == "floor"){
+										meshFloor = obj;
+										obj.material = material;
+									}
+
+									obj.material.blending = THREE.NormalBlending;
+									if(obj.name == "plant_1"){
+										plane1 = obj;
+
+										plane1.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/plant_1VRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+									}
+
+									if(obj.name == "plant_2"){
+										plane2 = obj;
+
+										plane2.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/plant_2VRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+										//plane2.material.needsUpdate = true;
+									}
+
+									if(obj.name == "plant_3"){
+										plane3 = obj;
+
+										plane3.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/plant_3VRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+									}
+
+									if(obj.name == "plant_4"){
+										plane4 = obj;
+
+										plane4.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/plant_4VRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+									}
+
+									if(obj.name == "plant_5"){
+										plane5 = obj;
+
+										plane5.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/plant_5VRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+									}
+
+									if(obj.name == "plant_006"){
+										plane6 = obj;
+
+										plane6.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/plant_006VRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+									}
+
+								}
+
+								scene.add( object );
+								mesh = object;
+								isLoaded = true;
+								console.log(mesh);
+
+								if(attachedMesh)attachedMesh.visible = true;
+							}, onProgress, onError );
+
+					} );
+
+
+					new THREE.MTLLoader()
+					.setPath( root+'models/obj/airport/' )
+					.load( 'whiteModel.mtl', function ( materials ) {
+
+						materials.preload();
+
+						new THREE.OBJLoader()
+							.setMaterials( materials )
+							.setPath( root+'models/obj/airport/' )
+							.load( 'whiteModel.obj', function ( object ) {
+                                for(var index = 0 ;index < object.children.length; index++){
+									var obj = object.children[index];
+									obj.material = new THREE.ShaderMaterial( {
+										uniforms: {
+										time: { value: 1.0 },
+										mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/whiteModelVRayCompleteMap.jpg') },
+										},
+										vertexShader: document.getElementById( 'vertexShader' ).textContent,
+										fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+									    } );
+
+								}
+
+								scene.add( object );
+								//mesh = object;
+							}, onProgress, onError );
+
+					} );
+
+					new THREE.MTLLoader()
+					.setPath( root+'models/obj/airport/' )
+					.load( 'groud.mtl', function ( materials ) {
+
+						materials.preload();
+
+						new THREE.OBJLoader()
+							.setMaterials( materials )
+							.setPath( root+'models/obj/airport/' )
+							.load( 'groud.obj', function ( object ) {
+							for(var index = 0 ;index < object.children.length; index++){
+									var obj = object.children[index];
+									 obj.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/weixditu.png') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+							}
+
+
+								scene.add( object );
+								//mesh = object;
+							}, onProgress, onError );
+
+					} );
+
+
+					new THREE.MTLLoader()
+					.setPath( root+'models/obj/airport/' )
+					.load( 'boundBox1.mtl', function ( materials ) {
+
+						materials.preload();
+
+						new THREE.OBJLoader()
+							.setMaterials( materials )
+							.setPath( root+'models/obj/airport/' )
+							.load( 'boundBox1.obj', function ( object ) {
+                                //console.log(object);
+								for(var index = 0 ;index < object.children.length; index++){
+									var obj = object.children[index];
+									obj.index = UserCount;
+									obj.material = new THREE.MeshBasicMaterial({transparent:true,opacity:0.0,blending:THREE.AdditiveBlending});;
+									mouseTarget.push(obj);
+									//obj.visible = false;
+								}
+								scene.add( object );
+								//console.log(mouseTarget);
+							}, onProgress, onError );
+
+					} );
+
+
+					new THREE.MTLLoader()
+					.setPath( root+'models/obj/airport/' )
+					.load( 'qb.mtl', function ( materials ) {
+
+						materials.preload();
+
+						new THREE.OBJLoader()
+							.setMaterials( materials )
+							.setPath( root+'models/obj/airport/' )
+							.load( 'qb.obj', function ( object ) {
+                                for(var index = 0 ;index < object.children.length; index++){
+									var obj = object.children[index];
+									 obj.material = new THREE.ShaderMaterial( {
+
+											uniforms: {
+												time: { value: 1.0 },
+												mydiffuseMap  : { value: new THREE.TextureLoader().load( root+'models/obj/airport/QBVRayCompleteMap.jpg') },
+											},
+											vertexShader: document.getElementById( 'vertexShader' ).textContent,
+											fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+											//transparent:false,
+											//blending:THREE.AdditiveBlending,
+										} );
+								}
+								attachedMesh = object;
+								attachedMesh.visible = false;
+								scene.add( object );
+								//console.log(mouseTarget);
+							}, onProgress, onError );
+
+					} );
+
+				}
+
+
+			function heatMap(){
+					var pointLight = new THREE.PointLight( 0x00ff00, 400.0 );
+					scene.add(pointLight);
+					pointLight.distance = 10;
+					pointLight.position.set(-30,5.0,-42);
+					//pointLight.angle = 3.14;
+					pointLight.decay = 23.0;
+
+					LightSets.push(pointLight);
+
+
+					var pointLight2 = new THREE.PointLight( 0x00ff00, 400.0 );
+					scene.add(pointLight2);
+					pointLight2.distance = 7.5;
+					pointLight2.position.set(-34,5.0,22);
+					//pointLight.angle = 3.14;
+					pointLight2.decay =14.0;
+					LightSets.push(pointLight2);
+					//////hotMap 1/////
+
+
+					var pointLight3 = new THREE.PointLight( 0xff0000, 400.0 );
+					scene.add(pointLight3);
+					pointLight3.distance = 8;
+					pointLight3.position.set(4,5.0,18);
+					//pointLight.angle = 3.14;
+					pointLight3.decay =14.0;
+					LightSets.push(pointLight3);
+
+					//////hotMap 2/////
+
+
+					var pointLight4 = new THREE.PointLight( 0xff0000, 400.0 );
+					scene.add(pointLight4);
+					pointLight4.distance = 75;
+					pointLight4.position.set(-25,12.0,60);
+					//pointLight.angle = 3.14;
+					pointLight4.decay =45.0;
+					LightSets.push(pointLight4);
+
+
+					var pointLight5 = new THREE.PointLight( 0x0000ff, 400.0 );
+					scene.add(pointLight5);
+					pointLight5.distance =80;
+					pointLight5.position.set(-25,12.0,60);
+					//pointLight.angle = 3.14;
+					pointLight5.decay =45.0;
+					LightSets.push(pointLight5);
+					//////hotMap 2/////
+					var pointLight8 = new THREE.PointLight( 0x00ff00, 400.0 );
+					scene.add(pointLight8);
+					pointLight8.distance =30;
+					pointLight8.position.set(0,10.0,50);
+					//pointLight.angle = 3.14;
+					pointLight8.decay =25.0;
+					LightSets.push(pointLight8);
+
+
+					var pointLight6 = new THREE.PointLight( 0xff0000, 1400.0 );
+					scene.add(pointLight6);
+					pointLight6.distance = 25;
+					pointLight6.position.set(-2,12.0,-15);
+					//pointLight.angle = 3.14;
+					pointLight6.decay =15.0;
+					LightSets.push(pointLight6);
+
+
+					var pointLight7 = new THREE.PointLight( 0x0000ff, 1400.0 );
+					scene.add(pointLight7);
+					pointLight7.distance =30;
+					pointLight7.position.set(-2,12.0,-15);
+					//pointLight.angle = 3.14;
+					pointLight7.decay =15.0;
+					LightSets.push(pointLight7);
+				}
+
+		</script>
+
+        <div id="test" style="width:200px;height:110px;position:absolute">
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0,0,200,110" >
+					<defs>
+						<linearGradient id="svgTopLeft_filter" x1="0%" y1="0%" x2="100%" y2="0%">
+							<stop offset="0%" style="stop-color:rgb(99,215,240);stop-opacity:0.5"/>
+							<stop offset="10%" style="stop-color:rgb(99,215,240);stop-opacity:0.7"/>
+							<stop offset="50%" style="stop-color:rgb(99,215,240);stop-opacity:1"/>
+							<stop offset="90%" style="stop-color:rgb(99,215,240);stop-opacity:0.7"/>
+							<stop offset="100%" style="stop-color:rgb(99,215,240);stop-opacity:0.5"/>
+						</linearGradient>
+						<linearGradient id="svgTopLeft_filter_light" x1="0%" y1="0%" x2="100%" y2="0%">
+							<stop offset="0%" style="stop-color:rgb(99,215,240);stop-opacity:0.2"/>
+							<stop offset="10%" style="stop-color:rgb(99,215,240);stop-opacity:0.4"/>
+							<stop offset="50%" style="stop-color:rgb(99,215,240);stop-opacity:0.7"/>
+							<stop offset="90%" style="stop-color:rgb(99,215,240);stop-opacity:0.4"/>
+							<stop offset="100%" style="stop-color:rgb(99,215,240);stop-opacity:0.2"/>
+						</linearGradient>
+						<style>
+							.svgBg{
+								stroke: transparent;
+								fill: rgba(0, 0, 0, 0.5);
+								stroke-width: 0;
+							}
+							.svgTopLeft{
+								stroke: transparent;
+								fill: url('#svgTopLeft_filter');
+								stroke-width: 0;
+							}
+							#svgTopText{
+								stroke: transparent;
+								fill: rgb(99,215,240);
+								stroke-width: 0;
+								font-size: 16px;
+								text-align: left;
+							}
+							#svgTopClose{
+								stroke: rgba(255, 255, 255, 1);
+								stroke-width: 2;
+								cursor: pointer;
+							}
+							.svgTopLine{
+								stroke: transparent;
+								fill: url('#svgTopLeft_filter_light');
+								stroke-width: 0;
+								cursor: pointer;
+							}
+							.svgBodyTextNormal{
+								stroke: transparent;
+								fill: white;
+								stroke-width: 0;
+								font-size: 12px;
+								text-align: left;
+							}
+							#svgBodyTextNumber{
+								stroke: transparent;
+								fill: yellow;
+								stroke-width: 0;
+								font-size: 28px;
+								text-align: left;
+							}
+						</style>
+					</defs>
+					<path class="svgBg" d="M0 0 L200 0 L200 100 L105 100 L95 100 L0 100 L0 0 Z" />
+					<g class="svgTop" >
+						<path class="svgTopLeft" d="M10 10 L15 10 L15 30 L10 30 Z" />
+						<text id="svgTopText" x="20" y="26" >广州白云机场</text>
+						<path class="svgTopLine" d="M5 40.5 L100 40 L195 40.5 L100 41 Z" />
+					</g>
+					<g class="svgBody" >
+						<text id="svgBodyText" x="10" y="80" >
+							<tspan class="svgBodyTextNormal" >当前总人数：</tspan>
+							<tspan id="svgBodyTextNumber" >400</tspan>
+							<tspan class="svgBodyTextNormal" > 人</tspan>
+						</text>
+					</g>
+				</svg>
+		</div>
+	</body>
+</html>

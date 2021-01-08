@@ -1,0 +1,801 @@
+/*@font-face {*/
+
+/*font-family:'fzztjw';*/
+
+/*src: url('../font/SourceHanSansCN-Normal.otf');*/
+
+/*font-weight: normal;*/
+
+/*font-style: normal;*/
+
+/*}*/
+
+/*通用样式*/
+
+.tac {
+	text-align: center;
+}
+
+.flex {
+	display: flex;
+}
+
+.jsa {
+	justify-content: space-around;
+}
+
+.jsb {
+	justify-content: space-between;
+}
+
+.jsc {
+	justify-content: center;
+}
+
+.ofh {
+	overflow: hidden;
+}
+
+.fs_12 {
+	font-size: 12px;
+}
+
+.fs_14 {
+	font-size: 14px;
+}
+
+.fs_16 {
+	font-size: 16px;
+}
+
+.fs_18 {
+	font-size: 18px;
+}
+
+.fs_20 {
+	font-size: 20px;
+}
+
+.fs_36 {
+	font-size: 36px;
+}
+
+.csp {
+	cursor: pointer;
+}
+
+.fb {
+	font-weight: bold;
+}
+
+.bgi {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100% 100%;
+}
+
+.color-white {
+	color: white;
+}
+
+.color-yellow {
+	color: #FFFF00 !important;
+}
+
+.color-blue {
+	color: rgba(255, 255, 0, 1);
+}
+
+.border-blue {
+	border: 1px solid rgba(90, 132, 201, 1);
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+/* 靶向短信弹出层 */
+.bxdx .el-dialog__header {
+	display: none !important;
+}
+
+.el-tooltip__popper {
+	font-size: 16px !important;
+
+}
+
+.bxdx .el-dialog {
+	background-color: rgba(0, 0, 0, 0) !important;
+	margin-top: 130px !important;
+	width: 1343px;
+	height: 662px;
+}
+
+.bxdx .el-table .cell {
+	padding-left: 0;
+	padding-right: 0;
+	text-align: center;
+}
+
+.bxdx .el-dialog__body {
+	padding: 0;
+}
+
+.bxdx .el-dialog__wrapper {
+	background-color: rgba(0, 0, 0, 0.5);
+	top: 85px;
+}
+
+.bxdx .el-form-item__label {
+	color: white;
+	font-size: 16px;
+}
+
+.bxdx .el-input__inner {
+	width: 211px;
+	height: 51px;
+	background-image: url(../pages/bxdx/assets/hdmc.png);
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: rgba(0, 0, 0, 0);
+	color: white;
+	font-size: 16px;
+	border: 0;
+}
+
+.bxdx input::-webkit-input-placeholder {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.bxdx input::-moz-placeholder {
+	/* Mozilla Firefox 19+ */
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.bxdx input:-moz-placeholder {
+	/* Mozilla Firefox 4 to 18 */
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.bxdx input:-ms-input-placeholder {
+	/* Internet Explorer 10-11 */
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.bxdx .el-form-item {
+	margin-bottom: 25px;
+}
+
+.el-dropdown-link {
+	outline: 0;
+}
+
+.bxdx .table table {
+	width: 100% !important;
+}
+
+.bxdx .table th {
+	background-color: rgba(0, 0, 0, 0);
+	color: rgba(255, 255, 0, 1);
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.bxdx .el-table {
+	height: 250px !important;
+}
+
+.bxdx .el-table,
+.bxdx .el-table__expanded-cell {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.bxdx .el-table td,
+.bxdx .el-table th.is-leaf {
+	border: 0;
+}
+
+.bxdx .el-table th,
+.bxdx .el-table tr {
+	background-color: rgba(0, 51, 204, 0.2);
+	height: 50px;
+}
+
+.bxdx .table .el-table__row {
+	width: 100%;
+	background-color: rgba(0, 255, 255, 0.2);
+	color: white;
+	font-size: 16px;
+	height: 50px;
+	border-top: 1px solid rgba(9, 193, 255, 1);
+}
+
+.bxdx .table .el-table__row--striped {
+	width: 100%;
+	background-color: rgba(0, 51, 204, 0.2);
+	color: white;
+	font-size: 16px;
+	height: 50px;
+	border-top: 1px solid rgba(9, 193, 255, 1);
+}
+
+.bxdx .el-table--striped .el-table__body tr.el-table__row--striped td {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.bxdx .el-table--enable-row-hover .el-table__body tr:hover>td {
+	background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.bxdx .el-table::before {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.bxdx .el-input__suffix {
+	display: none;
+}
+
+.bxdx .el-loading-text {
+	font-size: 16px;
+}
+
+.v-modal {
+	width: 0;
+	border: 0;
+}
+
+.bxdx .el-table th,
+.bxdx .el-table tr {
+	background-color: rgba(0, 51, 204, 0.2);
+	height: 50px;
+}
+
+.bxdx .table .el-table__row {
+	width: 100%;
+	background-color: rgba(0, 255, 255, 0.2);
+	color: white;
+	font-size: 16px;
+	height: 50px;
+	border-top: 1px solid rgba(9, 193, 255, 1);
+}
+
+.bxdx .table .el-table__row--striped {
+	width: 100%;
+	background-color: rgba(0, 51, 204, 0.2);
+	color: white;
+	font-size: 16px;
+	height: 50px;
+	border-top: 1px solid rgba(9, 193, 255, 1);
+}
+
+.bxdx .el-table--striped .el-table__body tr.el-table__row--striped td {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+/* .bxdx .el-table__body-wrapper{
+	height: 250px !important;
+} */
+.bxdx .el-table--enable-row-hover .el-table__body tr:hover>td {
+	background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.bxdx .el-table::before {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.bxdx .el-input__suffix {
+	display: none;
+}
+
+.bxdx .el-loading-text {
+	font-size: 16px;
+}
+
+.bxdx ::-webkit-scrollbar {
+	/* width: 7px; */
+	/* height: 41px; */
+	width: 9px;
+	height: 253px;
+	background: rgba(7, 35, 55, 1);
+}
+
+.bxdx ::-webkit-scrollbar-thumb {
+	width: 9px;
+	height: 66px;
+	background: rgba(6, 179, 173, 1);
+}
+
+.v-modal {
+	width: 0;
+}
+
+/* 靶向短信结束 */
+
+/* 路网监控 */
+.lwjk .amap-logo {
+	display: none !important;
+}
+
+.lwjk .el-table th>.cell {
+	color: rgba(129, 255, 209, 1);
+	font-size: 18px;
+	font-weight: normal;
+}
+
+.lwjk .cell {
+	color: white;
+	font-size: 16px;
+}
+
+.lwjk .el-table,
+.lwjk .el-table th,
+.lwjk .el-table tr {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.lwjk .el-table tr {
+	height: 48px;
+}
+
+.lwjk .el-table thead tr {
+	height: 20px;
+}
+
+.lwjk .el-table thead tr th {
+	height: 20px !important;
+	padding-top: 10px;
+	padding-bottom: 0;
+}
+
+.lwjk .el-table--striped .el-table__body tr.el-table__row--striped td {
+	background: rgba(25, 78, 163, 0.46);
+}
+
+.lwjk .el-table td,
+.lwjk .el-table th.is-leaf {
+	border: 0;
+}
+
+.lwjk .el-table::before {
+	width: 0;
+}
+
+.lwjk .el-table--enable-row-hover .el-table__body tr:hover>td {
+	background-color: rgba(25, 78, 163, 0.3) !important;
+}
+
+.lwjk .el-table td,
+.lwjk .el-table th {
+	padding: 0px;
+}
+
+.lwjk .fk {
+	color: black !important;
+	width: 36px;
+	height: 30px;
+	padding-top: 10px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100% 100%;
+	margin: 0 auto;
+}
+
+.lwjk .fk0 {
+	background-image: url(../assets/rank1.png);
+}
+
+.lwjk .fk1 {
+	background-image: url(../assets/rank2.png);
+}
+
+.lwjk .fk2 {
+	background-image: url(../assets/rank3.png);
+}
+
+.lwjk input::-webkit-input-placeholder {
+	color: rgba(236, 236, 236, 1);
+}
+
+.lwjk input::-moz-placeholder {
+	color: rgba(236, 236, 236, 1);
+}
+
+.lwjk input:-moz-placeholder {
+	color: rgba(236, 236, 236, 1);
+}
+
+.lwjk input:-ms-input-placeholder {
+	color: rgba(236, 236, 236, 1);
+}
+
+.lwjk ::-webkit-scrollbar {
+	width: 7px;
+	/* height: 41px; */
+	background-color: rgba(133, 177, 224, 0.22);
+}
+
+.lwjk ::-webkit-scrollbar-thumb {
+	width: 7px;
+	height: 41px;
+	background: rgba(16, 125, 201, 1);
+	border-radius: 4px;
+}
+
+.lwjk .el-progress-circle {
+	width: 67px !important;
+	height: 57px !important;
+}
+
+.lwjk .el-progress__text {}
+
+.lwjk .el-collapse-item__header {
+	background-color: rgba(19, 91, 171, 0.9);
+	color: white;
+	padding-left: 20px;
+	border: 0;
+}
+
+.lwjk .el-collapse-item__header .el-collapse-item__arrow {
+	margin-left: 10px;
+}
+
+.lwjk .el-collapse-item__content {
+	color: white;
+}
+
+.lwjk .el-collapse-item__wrap {
+	background-color: rgba(19, 91, 171, 0.9);
+	border: 0;
+}
+
+.lwjk .el-collapse {
+	border: 0;
+	color: white;
+}
+
+.lwjk #el-collapse-head-7494 {
+	background-color: rgba(19, 91, 171, 0.9);
+	color: white;
+}
+
+.lwjk .el-loading-text {
+	font-size: 24px;
+}
+
+.lwjk .el-loading-mask {
+	background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.lwjk .el-icon-loading {
+	font: 40px "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
+}
+
+.amap-logo {
+	display: none !important;
+}
+
+.amap-copyright {
+	display: none !important;
+}
+
+.process-part .el-progress-bar__outer {
+
+	background-color: #227D95;
+
+}
+
+.process-part .el-progress-bar__inner {
+	background-color: #0CB59B;
+}
+
+#percent1 .el-progress-circle__track {
+	stroke: rgba(255, 255, 0, 0.4);
+}
+
+#percent1 .el-progress__text {
+	color: rgba(255, 255, 0, 1);
+	font-size: 19px !important;
+}
+
+#percent2 .el-progress-circle__track {
+	stroke: rgba(255, 255, 0, 0.4);
+}
+
+#percent2 .el-progress__text {
+	color: rgba(255, 255, 0, 1);
+	font-size: 19px !important;
+}
+
+#percent3 .el-progress-circle__track {
+	stroke: rgba(255, 255, 0, 0.4);
+}
+
+#percent3 .el-progress__text {
+	color: rgba(255, 255, 0, 1);
+	font-size: 19px !important;
+}
+
+#percent4 .el-progress-circle__track {
+	stroke: rgba(255, 255, 0, 0.4);
+}
+
+#percent4 .el-progress__text {
+	color: rgba(255, 255, 0, 1);
+	font-size: 19px !important;
+}
+
+#percent5 .el-progress-circle__track {
+	stroke: rgba(255, 255, 0, 0.4);
+}
+
+#percent5 .el-progress__text {
+	color: rgba(255, 255, 0, 1);
+	font-size: 19px !important;
+}
+
+.markfuwu1 {
+	/*width: 63px;*/
+	/*height: 60px;*/
+	width: 39px;
+	height: 48px;
+	position: absolute;
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+
+	background-image: url("../assets/服务区@2x.png");
+	/*background-image: url("../assets/拥挤@2x.png");*/
+	overflow: visible;
+}
+
+.markfuwu2 {
+	/*width: 63px;*/
+	/*height: 60px;*/
+	width: 39px;
+	height: 48px;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	/*background-image: url("../assets/适中@2x.png");*/
+	background-image: url("../assets/服务区@2x.png");
+	overflow: visible;
+}
+
+.markfuwu3 {
+	/*width: 63px;*/
+	/*height: 60px;*/
+	width: 39px;
+	height: 48px;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	/*background-image: url("../assets/舒适@2x.png");*/
+	background-image: url("../assets/服务区@2x.png");
+	overflow: visible;
+}
+
+.fuwu-detail {
+	width: 514px;
+	height: 118px;
+	position: absolute;
+	top: -118px;
+	left: -238px;
+	z-index: 100;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-image: url("../assets/实时人数bg@2x.png");
+}
+
+.fuwu-status1 {
+	width: 124px;
+	height: 52px;
+	left: 42px;
+	top: 0px;
+	font-size: 18px;
+	font-family: PingFang SC;
+	background: rgba(255, 78, 34, 0.5);
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+	line-height: 52px;
+	position: absolute;
+}
+
+.fuwu-status2 {
+	width: 124px;
+	height: 52px;
+	left: 42px;
+	top: 0px;
+	font-size: 18px;
+	font-family: PingFang SC;
+	background: rgba(44, 213, 244, 0.5);
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+	line-height: 52px;
+	position: absolute;
+}
+
+.fuwu-status3 {
+	width: 124px;
+	height: 52px;
+	left: 42px;
+	top: 0px;
+	font-size: 18px;
+	font-family: PingFang SC;
+	background: rgba(26, 255, 26, 0.8);
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+	line-height: 52px;
+	position: absolute;
+	z-index: 100;
+}
+
+.detail-flow {
+	width: 514px;
+	height: 118px;
+	z-index: 100;
+}
+
+.detail-flow .item {
+	display: inline-block;
+	width: 128px;
+	height: 110px;
+	text-align: center;
+}
+
+.detail-flow .item .name {
+	/*display: inline-block;*/
+	font-size: 18px;
+	font-family: PingFang SC;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	margin-top: 23px;
+}
+
+.detail-flow .item .number {
+	/*display: inline-block;*/
+	margin-top: 13px;
+	font-size: 40px;
+	font-family: DIN;
+	font-weight: 500;
+	color: rgba(255, 255, 0, 1);
+}
+
+.detail-flow .item .number.green {
+	color: #2DE714;
+}
+
+.weixing {
+
+	background-image: url("../assets/卫星地图默认@2x.png");
+	width: 91px;
+	height: 73px;
+	background-size: 100% 100%;
+	cursor: pointer;
+	position: absolute;
+
+}
+
+.weixing.selected {
+	background-image: url("../assets/卫星地图选中@2x.png") !important;
+}
+
+.weather-1 {
+	background-image: url("../assets/weather/暴雨@2x.png") !important;
+}
+
+/*打雷*/
+.weather-2 {
+	background-image: url("../assets/weather/雷阵雨@2x.png") !important;
+}
+
+/*大暴雨*/
+.weather-3 {
+	background-image: url("../assets/weather/暴雨@2x.png") !important;
+}
+
+/*大雨*/
+.weather-4 {
+	background-image: url("../assets/weather/大雨@2x.png") !important;
+}
+
+/*多云*/
+.weather-5 {
+	background-image: url("../assets/weather/阴天@2x.png") !important;
+}
+
+/*雷阵雨*/
+.weather-6 {
+	background-image: url("../assets/weather/雷阵雨@2x.png") !important;
+}
+
+/*霾*/
+.weather-7 {
+	background-image: url("../assets/weather/霾@2x.png") !important;
+}
+
+/*晴*/
+.weather-8 {
+	background-image: url("../assets/weather/晴@2x.png") !important;
+}
+
+/*晴天*/
+.weather-9 {
+	background-image: url("../assets/weather/晴@2x.png") !important;
+}
+
+/*雾*/
+.weather-10 {
+	background-image: url("../assets/weather/雾@2x.png") !important;
+}
+
+/*小雨*/
+.weather-11 {
+	background-image: url("../assets/weather/小雨@2x.png") !important;
+}
+
+/*阴*/
+.weather-12 {
+	background-image: url("../assets/weather/阴天@2x.png") !important;
+}
+
+/*阴天*/
+.weather-13 {
+	background-image: url("../assets/weather/阴天@2x.png") !important;
+}
+
+/*雨夹雪*/
+.weather-14 {
+	background-image: url("../assets/weather/雨夹雪@2x.png") !important;
+}
+
+/*中雨*/
+.weather-15 {
+	background-image: url("../assets/weather/中雨@2x.png") !important;
+}
+/*阵雨*/
+.weather-16 {
+	background-image: url("../assets/weather/中雨@2x.png") !important;
+}
+
+.bg-base {
+	background-image: url("../assets/bg/网格@2x.png") !important;
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	/*pointer-events: none;*/
+}
+
+.left-bg {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 1920px;
+	height: 1080px;
+	background-image: url("../assets/bg/带地图-左屏@2x.png") !important;
+	background-size: 100% 100%;
+	pointer-events: none;
+}
+
+.right-bg {
+	position: absolute;
+	background-image: url("../assets/bg/带地图-右屏@2x.png") !important;
+	background-size: 100% 100%;
+	left: 0px;
+	top: 0px;
+	width: 1920px;
+	height: 1080px;
+	z-index: 100;
+	pointer-events: none;
+}
+
+
+
+/*html,body{*/
+/*overflow:hidden;*/
+/*}*/

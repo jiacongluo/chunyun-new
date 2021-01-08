@@ -1,0 +1,158 @@
+.icon-minhang-green {
+  width: 50px;
+  height: 46px;
+  background-image: url("../assets/world/飞机@2x.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-minhang-yellow {
+  width: 50px;
+  height: 46px;
+  background-image: url("../assets/world/明航@2x.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-gonglu-green {
+  width: 56px;
+  height: 41px;
+  background-image: url("../assets/world/公路@2x.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-gonglu-yellow {
+  width: 56px;
+  height: 41px;
+  background-image: url("../assets/world/公路@2x(1).png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-shuilu-green {
+  width: 45px;
+  height: 48px;
+  background-image: url("../assets/world/水路@2x.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-shuilu-yellow {
+  width: 45px;
+  height: 48px;
+  background-image: url("../assets/world/水路@2x(1).png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-tielu-green {
+  width: 39px;
+  height: 43px;
+  background-image: url("../assets/world/铁路@2x.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-tielu-yellow {
+  width: 39px;
+  height: 43px;
+  background-image: url("../assets/world/铁路@2x(1).png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.nav-number {
+  font-size: 42px;
+  //font-family: unidreamledregular;
+  font-weight: 400;
+}
+
+.yellow-number {
+  color: rgba(255, 255, 0, 1) !important;
+}
+
+.number-part {
+  position: absolute;
+  .number-item {
+    position: relative;
+    display: inline-block;
+    width: 222px;
+    height: 96px;
+    margin-right: 16px;
+    background-image: url("../assets/world/迁入迁出数据底框@2x.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    .title {
+      position: absolute;
+      width: 150px;
+      height: 19px;
+      left: 21px;
+      top: 17px;
+      text-align: left;
+      //text-align: center;
+      font-size: 18px;
+      font-family: Microsoft YaHei;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+      line-height: 19px;
+      .up-icon{
+        position: absolute;
+        background-image: url("../assets/上升@2x.png");
+        width: 22px;
+        height: 22px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin-left: 12px;
+        display: inline-block;
+        line-height: 19px;
+      }
+      .down-icon{
+        position: absolute;
+        background-image: url("../assets/下降@2x.png");
+        width: 22px;
+        height: 22px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin-left: 12px;
+        display: inline-block;
+        line-height: 19px;
+      }
+    }
+    .number-value {
+      top: 48px;
+      left: 22px;
+      position: absolute;
+      height: 35px;
+      width: 200px;
+      vertical-align: bottom;
+      .number {
+        display: inline-block;
+        font-size: 42px;
+        margin-right: 10px;
+        //font-family: unidreamledregular;
+        //letter-spacing: 5px;
+        font-weight: 400;
+        color: rgba(0, 255, 255, 1);
+        &.green {
+          color: rgba(24, 255, 0, 1);
+        }
+        &.yellow {
+          color: #FFFF00;
+        }
+        &.blue {
+          color: #00FFFF;
+        }
+      }
+      .unit {
+        font-size: 14px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+
+      }
+    }
+  }
+
+}

@@ -1,0 +1,281 @@
+.full-div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+@font-face {
+    /*font-family: 'unidreamledregular';*/
+    /*src: url('../assets/font/unidreamled-webfont.eot');*/
+    /*src: url('../assets/font/unidreamled-webfont.eot?#iefix') format('embedded-opentype'),*/
+    /*url('../assets/font/unidreamled-webfont.woff2') format('woff2'),*/
+    /*url('../assets/font/unidreamled-webfont.woff') format('woff'),*/
+    /*url('../assets/font/unidreamled-webfont.ttf') format('truetype'),*/
+    /*url('../assets/font/unidreamled-webfont.svg#unidreamledregular') format('svg');*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+}
+.cp {
+    cursor: pointer!important;
+}
+.df {
+    display: flex!important;
+}
+.noborder {
+    border: none!important;
+}
+/*渐变border*/
+.linear-border {
+    border-image: linear-gradient(to right,#0099FF, rgba(0,0,0,0) 75%) 30 30;
+}
+/*进度条*/
+.qyzt-progress .el-progress-bar__outer {
+    background-color: #0066FF;
+}
+.qyzt-progress .el-progress__text {
+    /*color: #000;*/
+}
+.progress-div .el-progress-bar__outer {
+    background-color: #00FFFF;
+}
+.progress-div .el-progress-bar__inner {
+    background-color: #A518FF
+}
+.mid-box .el-progress-bar__outer {
+    background-color: #1FAEE9;
+}
+/*.progress-div .el-progress-bar__inner {*/
+    /*background-color: #A518FF*/
+/*}*/
+
+/*没鼠标事件*/
+.pen {
+    pointer-events: none!important;
+}
+.pea {
+    pointer-events: auto!important;
+}
+/*datepicker指针*/
+.dapick .el-input--prefix .el-input__inner {
+    cursor: pointer;
+}
+.dapick .el-range-input {
+    cursor: pointer;
+}
+.d-box .el-input--prefix .el-input__inner {
+    cursor: pointer;
+}
+.d-box .el-range-input {
+    cursor: pointer;
+}
+/*tooltip*/
+.tt-name {
+    font-size:16px;
+    /*font-family:Microsoft YaHei;*/
+    font-weight:bold;
+    color:rgba(255,255,255,1);
+    /*line-height:36px;*/
+}
+.tt-line {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+}
+.tt-name2 {
+    min-width: 100px;
+    white-space: nowrap;
+}
+.tt-num {
+    color: #FFFF00;
+    text-align: right;
+}
+
+/*滚动条*/
+.search-box ::-webkit-scrollbar {
+    width: 7px;
+    /* height: 41px; */
+    background-color: rgba(133, 177, 224, 0.22);
+}
+
+.search-box ::-webkit-scrollbar-thumb {
+    width: 7px;
+    height: 41px;
+    background: rgba(16, 125, 201, 1);
+    border-radius: 4px;
+}
+.xtld ::-webkit-scrollbar {
+    width: 10px;
+    /* height: 41px; */
+    background-color: rgba(133, 177, 224, 0.22);
+}
+
+.xtld ::-webkit-scrollbar-thumb {
+    width: 10px;
+    height: 41px;
+    background: rgb(18, 141, 226);
+    border-radius: 4px;
+}
+.cam-box ::-webkit-scrollbar {
+    width: 10px;
+    /* height: 41px; */
+    background-color: rgba(133, 177, 224, 0.22);
+}
+
+.cam-box ::-webkit-scrollbar-thumb {
+    width: 10px;
+    height: 41px;
+    background: rgb(18, 141, 226);
+    border-radius: 4px;
+}
+
+.dcls {
+    background-color: transparent;
+}
+.dcls .el-dialog__header {
+    padding: 0;
+}
+.dcls .el-dialog__body {
+    padding: 0;
+}
+.dcls .el-dialog__headerbtn {
+    display: none;
+}
+.dcls2 {
+    background-image: linear-gradient(to right, rgb(0, 66, 115), rgb(10, 0, 56));
+}
+.dcls2 {
+    border: 5px solid rgba(255,255,255,0.5);
+
+}
+.dcls2 .el-dialog__body {
+    padding: 0;
+    margin-top: 10px;
+}
+
+/*信息窗体*/
+.theInfoWindow {
+    background-image: url('../assets/juxing.png');
+    position: relative;
+    padding-top: 14px;
+    padding-left: 19px;
+    padding-right: 34px;
+}
+.theInfoWindow >div:first-child >div:first-child {
+    width:7px;
+    height:20px;
+    background:rgba(52,205,255,1);
+    margin-right: 10px;
+    margin-bottom: 11px;
+}
+.theInfoWindow >div:first-child >div:nth-child(2){
+    color: rgba(52, 205, 255, 1);
+
+}
+.theInfoWindow >div:nth-child(2){
+    width:231px;
+    height:2px;
+    background:rgba(93,111,140,1);
+    border-radius:50%;
+    margin-bottom: 20px;
+}
+.theInfoWindow >div:nth-child(3){
+    padding-bottom: 34px;
+    vertical-align: bottom;
+}
+.theInfoWindow >div:nth-child(3) >div:nth-child(1),.theInfoWindow >div:nth-child(3) >div:nth-child(3){
+    padding-top: 14px;
+
+}
+.theInfoWindow >div:nth-child(3) >div:nth-child(2) {
+    font-size: 30px;
+    color: rgb(255,255,0);
+}
+.theInfoWindow .delect{
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-image: url(../assets/cha.png);
+    top: 8px;
+    right: 10px;
+}
+.theInfoWindow .sharp{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: -12px;
+    left: 50%;
+    margin-left: -5px;
+    background-image: url(../assets/jian.png);
+}
+.theInfoWindow .sharp2{
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    bottom: -11px;
+    left: 50%;
+    margin-left: -14px;
+    background-image: url(../assets/jian.png);
+}
+
+/*楼层按钮*/
+.DivButton {
+    top: 287px;
+    right: 13px;
+    position: absolute;
+    z-index: 11;
+
+}
+
+.DivButton div {
+    width: 82px;
+    height: 48px;
+    font-size: 18px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url("../assets/楼层选择底框.png") no-repeat;
+    background-size: 100% 100%;
+    margin-bottom: 29px;
+    cursor: pointer;
+}
+
+.DivButton div.active {
+    background: url("../assets/楼层选中底框.png") no-repeat;
+    background-size: 100% 100%;
+}
+/*圆marker*/
+.roundMarker {
+    width: 30px;
+    height: 30px;
+    background-image: url('../assets/shishi点.png');
+}
+/*信息marker*/
+.infoMarker {
+    width: 222px;
+    height: 109px;
+    background-image: url('../assets/shishi框.png');
+    font-size:18px;
+    /*font-family:Microsoft YaHei;*/
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    /*line-height:60px;*/
+    padding: 19px 0 0 16px;
+
+}
+.infoMarker .line1 {
+    margin-bottom: 12px;
+}
+.infoMarker i {
+    color: #FFFF00;
+    font-size: 36px;
+}
+.infoMarker span {
+    font-size: 14px;
+}
+.db {
+    display: block!important;
+}
+
+.grey {
+    color: grey!important;
+}
