@@ -39,7 +39,7 @@
 			<!-- <div class="passwordHandle flex jsb fs_18">
 				<div class="remember flex csp" @click="changeChoose">
 					<div class="bgi" :class="ifChoose?'choose':'notChoose'">
-						
+
 					</div>
 					<div>
 						记住密码
@@ -82,7 +82,7 @@
 				}
 				if (this.userName && this.password && this.code) {
 					this.flag = true
-					this.http.post('api/platformLogin/loginVerify', {
+					this.http.post('http://14.23.164.13:9005/gdcnymot2/api/platformLogin/loginVerify', {
 						code: this.code,
 						password: this.password,
 						username: this.userName,
@@ -91,7 +91,7 @@
 						if (res.code == 200) {
 							this.flag = false
 							cookie.setCookie('userName',this.userName,60*24)
-							// debugger;
+							debugger;
 							if(res&&res.data&&res.data.deptId){
                                 cookie.setCookie('deptId',res.data.deptId,60*24)
 							}
@@ -111,9 +111,9 @@
 					this.changeCode()
 				}
 			},
-			changeCode() { 
+			changeCode() {
 				// this.codeImg = '/api/platformLogin/gifCode?' + Math.random()
-				this.codeImg = '/gdcnymot2/api/platformLogin/gifCode?' + Math.random()
+				this.codeImg = 'http://14.23.164.13:9005/gdcnymot2/api/platformLogin/gifCode?' + Math.random()
 			},
 			changeChoose() {
 				this.ifChoose = !this.ifChoose
@@ -225,7 +225,7 @@
 				}
 
 			}
-			
+
 			.shit{
 				border: 1px solid rgba(0, 255, 255, 1) !important;
 				color: rgba(0, 255, 255, 1) !important;

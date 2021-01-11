@@ -39,7 +39,7 @@
             window.addEventListener('message', function(event) {
                 var theDrawInfo=me.drawInfo;
                 if (event.data == 'close') {
-                    me.$parent('close');
+                    me.$emit('close');
                 } else if (event.data.drawType) {
                     me.$emit('close');
                     me.$emit('draw', event.data.drawType);

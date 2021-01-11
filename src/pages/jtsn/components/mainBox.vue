@@ -106,10 +106,10 @@
                     <BtmChartBox></BtmChartBox>
                 </div>
 
-                <!--&lt;!&ndash;3d模型&ndash;&gt;-->
-                <!--<div class="ddd-box" v-show="showThreeD">-->
-                    <!--<iframe class="ddd-iframe" src="airport/index.html" frameborder="0"></iframe>-->
-                <!--</div>-->
+                <!--3d模型-->
+                <div class="ddd-box" v-show="showThreeD">
+                    <iframe class="ddd-iframe" src="airport/index.html" frameborder="0"></iframe>
+                </div>
             </div>
 
             <!--右边部分-->

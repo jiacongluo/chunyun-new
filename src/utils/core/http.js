@@ -6,7 +6,8 @@ import utils from '@/utils'
 
 // 默认配置
 const axios = theaxios.create({
-    baseURL: process.env.VUE_APP_BASE_URL,
+    baseURL: '',
+    // baseURL: process.env.VUE_APP_BASE_URL,
     timeout: 30000,
 });
 const axios2 = theaxios.create({
@@ -22,38 +23,38 @@ const axios2 = theaxios.create({
 //     // Do something with request error
 //     return Promise.reject(error);
 // });
-// 
+//
 // 请求拦截
-axios.interceptors.request.use(function (config) {
-    // Do something before request is sent
-    // 在发送请求之前做某件事
-    // toast.showLoading()
-	let url = config.url.split('?')[0]
-	// debugger
-	if(url != "api/platformLogin/loginVerify"){
-		// console.log(cookie.getCookie('userName'))
-		// debugger
-		if(!cookie.getCookie('userName')){
-			window.location.href="login.html"
-		}else{
-			
-		}
-		
-	}else{
-		// debugger
-		if (config.method === "post") {
-		    // 序列化
-		    config.data = qs.stringify(config.data);
-		    // 温馨提示,若是贵公司的提交能直接接受json 格式,可以不用 qs 来序列化的
-		}
-	}
-	
-    return config;
-}, function (error) {
-    // Do something with request error
-    // toast.hideLoading()
-    return Promise.reject(error);
-});
+// axios.interceptors.request.use(function (config) {
+//     // Do something before request is sent
+//     // 在发送请求之前做某件事
+//     // toast.showLoading()
+// 	let url = config.url.split('?')[0]
+// 	// debugger
+// 	if(url != "api/platformLogin/loginVerify"){
+// 		// console.log(cookie.getCookie('userName'))
+// 		// debugger
+// 		if(!cookie.getCookie('userName')){
+// 			window.location.href="login.html"
+// 		}else{
+//
+// 		}
+//
+// 	}else{
+// 		// debugger
+// 		if (config.method === "post") {
+// 		    // 序列化
+// 		    config.data = qs.stringify(config.data);
+// 		    // 温馨提示,若是贵公司的提交能直接接受json 格式,可以不用 qs 来序列化的
+// 		}
+// 	}
+//
+//     return config;
+// }, function (error) {
+//     // Do something with request error
+//     // toast.hideLoading()
+//     return Promise.reject(error);
+// });
 
 // 响应拦截
 axios.interceptors.response.use(function (response) {

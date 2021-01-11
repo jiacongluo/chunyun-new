@@ -49,35 +49,56 @@ module.exports = {
         // }
     },
     devServer: {
-        port: 83,
+        port: 8080,
         proxy: {
-            '/': {
-				// target: 'http://192.168.3.9:8090',
-				// target: 'http://192.168.1.147:8090',
-				// target:'http://14.23.164.13:9005',
-				target: 'http://183.6.114.219:23137', //测试
-				// target: 'http://183.6.114.219:23901',
-                // target: 'http://192.168.1.8:8080',
-        		// target: 'http://10.10.10.160:8080',
+            '/api': {
+                target: 'http://14.23.164.13:9005/gdcnymot2',
                 ws: false,
                 changeOrigin: true,
                 pathRewrite: {
                     // '^/api': ''
                 }
             },
-			// '/jede': {
-			// 	target: 'http://183.6.114.219:23137',
-			// 	// target: 'http://183.6.114.219:23901',
-			//     // target: 'http://192.168.1.8:8080',
-			// 	// target: 'http://10.10.10.160:8080',
-			//     // ws: true,
-			//     changeOrigin: true,
-			//     pathRewrite: {
-			//         // '^/api': ''
-			//     }
-			// }
-        } // 配置开发环境 URL 便于本地开发调试
+            '/jede': {
+                target: 'http://14.23.164.13:9005/gdcnymot2',
+                ws: false,
+                changeOrigin: true,
+                pathRewrite: {
+                    // '^/api': ''
+                }
+            }
+        }
     },
+    // devServer: {
+    //     port: 83,
+    //     proxy: {
+    //         '/': {
+	// 			// target: 'http://192.168.3.9:8090',
+	// 			// target: 'http://192.168.1.147:8090',
+	// 			// target:'http://14.23.164.13:9005',
+	// 			target: 'http://183.6.114.219:23137', //测试
+	// 			// target: 'http://183.6.114.219:23901',
+    //             // target: 'http://192.168.1.8:8080',
+    //     		// target: 'http://10.10.10.160:8080',
+    //             ws: false,
+    //             changeOrigin: true,
+    //             pathRewrite: {
+    //                 // '^/api': ''
+    //             }
+    //         },
+	// 		// '/jede': {
+	// 		// 	target: 'http://183.6.114.219:23137',
+	// 		// 	// target: 'http://183.6.114.219:23901',
+	// 		//     // target: 'http://192.168.1.8:8080',
+	// 		// 	// target: 'http://10.10.10.160:8080',
+	// 		//     // ws: true,
+	// 		//     changeOrigin: true,
+	// 		//     pathRewrite: {
+	// 		//         // '^/api': ''
+	// 		//     }
+	// 		// }
+    //     } // 配置开发环境 URL 便于本地开发调试
+    // },
     chainWebpack: (config) => {
         config.plugins.delete('named-chunks')
         // config.externals({
